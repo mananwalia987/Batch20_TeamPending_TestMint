@@ -1,0 +1,62 @@
+
+========================================
+              TESTMINT                  
+       VALIDATE BEFORE YOU BUILD        
+========================================
+1. Submit Startup Idea
+2. Explore Startup Ideas
+3. Validate an Idea
+4. Founder Dashboard
+5. Exit
+========================================
+Enter your choice (1-5): 
+--------------------------------------------------------------------------------
+                         EXPLORE STARTUP IDEAS                                  
+--------------------------------------------------------------------------------
+ID   | Startup Name     | Founder      | Category   | Score  | Verdict                 
+--------------------------------------------------------------------------------
+#1   | PaySplit         | Aarav Mehta  | FinTech    |  72.4 | REFINE (Needs Validation
+#2   | KhetiMitra       | Priya Deshmu | AgriTech   |  76.2 | BUILD (Strong Demand)   
+#3   | GSTEase          | Suresh CA    | SaaS       |  35.4 | PIVOT (Weak Demand)     
+--------------------------------------------------------------------------------
+
+Options:
+  1. View full details of an idea
+  2. Return to Main Menu
+Enter option (1-2): Enter Startup ID: 
+========================================================================
+ IDEA DETAIL : PaySplit (ID: #1)
+========================================================================
+ Founder         : Aarav Mehta
+ Category        : FinTech
+ Views           : 413
+------------------------------------------------------------------------
+ [01] Problem    : Flatmates struggle to split rent, groceries and Wi-Fi over WhatsApp, causing awkward follow-ups.
+ [02] Solution   : UPI-native shared ledger that automatically splits bills and sends polite reminder collect requests.
+ [03] Audience   : College hostelites and young working professionals sharing apartments in metro cities.
+------------------------------------------------------------------------
+ Current Validation Score : 72.4 / 100
+ Verdict                  : REFINE (Needs Validation)
+ Total Votes              : 286 (Interested: 240 | Pass: 46)
+ Purchase Intent Signals  : 158
+------------------------------------------------------------------------
+ Community Feedback (2 notes):
+   [1] "Our flat uses messy Google Sheets. If reminders are automated I will switch tomorrow." - by Riya S. (Student)
+   [2] "Direct UPI settle-up in the same screen is the killer feature." - by Karthik N. (Engineer)
+========================================================================
+
+Press Enter to return to the Main Menu...
+========================================
+              TESTMINT                  
+       VALIDATE BEFORE YOU BUILD        
+========================================
+1. Submit Startup Idea
+2. Explore Startup Ideas
+3. Validate an Idea
+4. Founder Dashboard
+5. Exit
+========================================
+Enter your choice (1-5): 
+========================================================
+   Thank you for using TestMint. Validate before you build!
+========================================================

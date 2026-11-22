@@ -1,0 +1,16 @@
+
+========================================
+              TESTMINT                  
+       VALIDATE BEFORE YOU BUILD        
+========================================
+1. Submit Startup Idea
+2. Explore Startup Ideas
+3. Validate an Idea
+4. Founder Dashboard
+5. Exit
+========================================
+Enter your choice (1-5): [Error] Value out of range. Enter a number between 1 and 5.
+Enter your choice (1-5): 
+========================================================
+   Thank you for using TestMint. Validate before you build!
+========================================================

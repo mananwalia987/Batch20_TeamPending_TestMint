@@ -1,0 +1,11 @@
+# Compilation artifacts (optional to commit or ignore)
+*.o
+*.obj
+
+# OS & Editor artifacts
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.vscode/
+.idea/

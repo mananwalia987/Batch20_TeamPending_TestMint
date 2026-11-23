@@ -257,11 +257,11 @@ void displayMainMenu(void) {
    Purchase Intent Rate = (Purchase Intent / Total Votes) * 100
    Validation Score     = (Interest Rate * 0.60) + (Purchase Intent Rate * 0.40)
 
-   Decision Verdict:
-   Score >= 75.0           : BUILD (Strong Demand)
-   Score >= 40.0 and < 75.0: REFINE (Needs More Validation)
-   Score < 40.0            : PIVOT (Weak Demand)
-   Zero-vote safeguard     : Handles totalVotes == 0 without division by zero
+   Decision Verdicts:
+   Score >= 75.0           : STRONG DEMAND
+   Score >= 40.0 and < 75.0: NEEDS MORE VALIDATION
+   Score < 40.0            : WEAK DEMAND
+   Total Votes == 0        : NOT ENOUGH DATA YET (Safe zero-division protection)
 */
 void calculateMetrics(int interested, int pass, int purchase,
                       float *interestRate, float *purchaseRate,
@@ -272,7 +272,7 @@ void calculateMetrics(int interested, int pass, int purchase,
         *interestRate = 0.0f;
         *purchaseRate = 0.0f;
         *score = 0.0f;
-        strcpy(verdict, "REFINE (No Votes Yet)");
+        strcpy(verdict, "NOT ENOUGH DATA YET");
         return;
     }
 
@@ -281,11 +281,11 @@ void calculateMetrics(int interested, int pass, int purchase,
     *score = (*interestRate * 0.60f) + (*purchaseRate * 0.40f);
 
     if (*score >= 75.0f) {
-        strcpy(verdict, "BUILD (Strong Demand)");
+        strcpy(verdict, "STRONG DEMAND");
     } else if (*score >= 40.0f) {
-        strcpy(verdict, "REFINE (Needs Validation)");
+        strcpy(verdict, "NEEDS MORE VALIDATION");
     } else {
-        strcpy(verdict, "PIVOT (Weak Demand)");
+        strcpy(verdict, "WEAK DEMAND");
     }
 }
 
@@ -375,7 +375,7 @@ void exploreStartupIdeas(Startup startups[], int count) {
     int subChoice = readInteger("Enter option (1-2): ", 1, 2);
 
     if (subChoice == 1) {
-        int targetId = readInteger("Enter Startup ID: ", 1, count);
+        int targetId = readInteger("Enter Startup ID: ", 1, 999);
         int idx = findStartupIndexById(startups, count, targetId);
         if (idx != -1) {
             startups[idx].views++; /* Increment views upon viewing full detail */
@@ -442,7 +442,7 @@ void validateStartupIdea(Startup startups[], int count) {
     }
     printf("--------------------------------------------------------\n");
 
-    int targetId = readInteger("Enter the ID of the startup you want to validate: ", 1, count);
+    int targetId = readInteger("Enter the ID of the startup you want to validate: ", 1, 999);
     int idx = findStartupIndexById(startups, count, targetId);
 
     if (idx == -1) {
@@ -534,7 +534,7 @@ void founderDashboard(Startup startups[], int count) {
     }
     printf("--------------------------------------------------------------------------------\n");
 
-    int targetId = readInteger("Enter Startup ID (or enter 0 to return): ", 0, count);
+    int targetId = readInteger("Enter Startup ID (or enter 0 to return): ", 0, 999);
     if (targetId == 0) {
         return;
     }
@@ -579,7 +579,10 @@ void founderDashboard(Startup startups[], int count) {
     printf(" 4. OFFICIAL VERDICT:\n");
     printf("    ==> [ %s ] <==\n", verdict);
 
-    if (score >= 75.0f) {
+    if (totalVotes == 0) {
+        printf("    Guidance: [REFINE] Not enough data yet. Encourage prospective users to vote\n");
+        printf("              and share feedback to validate your concept before building.\n");
+    } else if (score >= 75.0f) {
         printf("    Guidance: [BUILD] Users are enthusiastic and willing to pay. Strong candidate\n");
         printf("              to proceed with building an MVP.\n");
     } else if (score >= 40.0f) {

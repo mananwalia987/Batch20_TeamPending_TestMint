@@ -1,11 +1,17 @@
-# Compilation artifacts (optional to commit or ignore)
+# Compiled binaries & object files
+*.exe
 *.o
+*.out
 *.obj
 
-# OS & Editor artifacts
+# Environment variables
+.env
+.env.*
+
+# Dependencies & Build artifacts
+node_modules/
+.next/
+
+# OS metadata
 .DS_Store
 Thumbs.db
-*.swp
-*~
-.vscode/
-.idea/

@@ -269,10 +269,9 @@ Enter your choice (1-5):
 
 ```text
 Batch20_TeamPending_TestMint/
-├── README.md               # Main project documentation and test outputs
-├── testmint.c              # Complete C99 source code
-├── flowchart.png           # Architecture diagram image
-└── SUBMISSION_CHECKLIST.md # Submission checklist & faculty approval notice
+├── README.md       # Main project documentation and test outputs
+├── testmint.c      # Complete C source code
+└── flowchart.png   # Architecture diagram image
 ```
 
 ---

@@ -294,6 +294,10 @@ void calculateMetrics(int interested, int pass, int purchase,
 /* ========================================================================= */
 
 void submitStartupIdea(Startup startups[], int *count) {
+    int i;
+    int catChoice;
+    Startup *newIdea;
+
     printf("--------------------------------------------------------\n");
     printf("             SUBMIT A NEW STARTUP CONCEPT               \n");
     printf("--------------------------------------------------------\n");
@@ -304,17 +308,17 @@ void submitStartupIdea(Startup startups[], int *count) {
         return;
     }
 
-    Startup *newIdea = &startups[*count];
+    newIdea = &startups[*count];
     newIdea->id = *count + 1;
 
     readSafeString("Founder Name        : ", newIdea->founder, STR_MED, 1);
     readSafeString("Startup Name        : ", newIdea->name, STR_MED, 1);
 
     printf("\nAvailable Categories:\n");
-    for (int i = 0; i < TOTAL_CATEGORIES; i++) {
+    for (i = 0; i < TOTAL_CATEGORIES; i++) {
         printf("  %d. %s\n", i + 1, CATEGORIES[i]);
     }
-    int catChoice = readInteger("Select Category (1-7): ", 1, TOTAL_CATEGORIES);
+    catChoice = readInteger("Select Category (1-7): ", 1, TOTAL_CATEGORIES);
     strncpy(newIdea->category, CATEGORIES[catChoice - 1], STR_SHORT - 1);
     newIdea->category[STR_SHORT - 1] = '\0';
 
@@ -340,6 +344,12 @@ void submitStartupIdea(Startup startups[], int *count) {
 
 void exploreStartupIdeas(Startup startups[], int count) {
     int i;
+    int subChoice;
+    int targetId;
+    int idx;
+    float iRate, pRate, score;
+    char verdict[STR_SHORT];
+
     printf("--------------------------------------------------------------------------------\n");
     printf("                         EXPLORE STARTUP IDEAS                                  \n");
     printf("--------------------------------------------------------------------------------\n");
@@ -354,8 +364,6 @@ void exploreStartupIdeas(Startup startups[], int count) {
     printf("--------------------------------------------------------------------------------\n");
 
     for (i = 0; i < count; i++) {
-        float iRate, pRate, score;
-        char verdict[STR_SHORT];
         calculateMetrics(startups[i].interested, startups[i].pass,
                          startups[i].purchaseIntent, &iRate, &pRate, &score, verdict);
 
@@ -372,11 +380,11 @@ void exploreStartupIdeas(Startup startups[], int count) {
     printf("\nOptions:\n");
     printf("  1. View full details of an idea\n");
     printf("  2. Return to Main Menu\n");
-    int subChoice = readInteger("Enter option (1-2): ", 1, 2);
+    subChoice = readInteger("Enter option (1-2): ", 1, 2);
 
     if (subChoice == 1) {
-        int targetId = readInteger("Enter Startup ID: ", 1, 999);
-        int idx = findStartupIndexById(startups, count, targetId);
+        targetId = readInteger("Enter Startup ID: ", 1, 999);
+        idx = findStartupIndexById(startups, count, targetId);
         if (idx != -1) {
             startups[idx].views++; /* Increment views upon viewing full detail */
             showSingleStartupDetail(&startups[idx]);
@@ -388,6 +396,7 @@ void exploreStartupIdeas(Startup startups[], int count) {
 
 /* Detailed card view for an individual startup */
 void showSingleStartupDetail(Startup *s) {
+    int j;
     float iRate, pRate, score;
     char verdict[STR_SHORT];
     calculateMetrics(s->interested, s->pass, s->purchaseIntent, &iRate, &pRate, &score, verdict);
@@ -414,7 +423,7 @@ void showSingleStartupDetail(Startup *s) {
     if (s->feedbackCount == 0) {
         printf("   No feedback written yet.\n");
     } else {
-        for (int j = 0; j < s->feedbackCount; j++) {
+        for (j = 0; j < s->feedbackCount; j++) {
             printf("   [%d] \"%s\" - by %s\n", j + 1, s->feedbacks[j].text, s->feedbacks[j].author);
         }
     }
@@ -426,6 +435,17 @@ void showSingleStartupDetail(Startup *s) {
 /* ========================================================================= */
 
 void validateStartupIdea(Startup startups[], int count) {
+    int i;
+    int targetId;
+    int idx;
+    Startup *s;
+    int voteChoice;
+    int purchaseChoice;
+    int feedbackChoice;
+    Feedback *fb;
+    float iRate, pRate, score;
+    char verdict[STR_SHORT];
+
     printf("--------------------------------------------------------\n");
     printf("                   VALIDATE AN IDEA                     \n");
     printf("--------------------------------------------------------\n");
@@ -436,21 +456,21 @@ void validateStartupIdea(Startup startups[], int count) {
     }
 
     printf("Available Startups:\n");
-    for (int i = 0; i < count; i++) {
+    for (i = 0; i < count; i++) {
         printf("  #%d. %s (by %s) - %s\n",
                startups[i].id, startups[i].name, startups[i].founder, startups[i].category);
     }
     printf("--------------------------------------------------------\n");
 
-    int targetId = readInteger("Enter the ID of the startup you want to validate: ", 1, 999);
-    int idx = findStartupIndexById(startups, count, targetId);
+    targetId = readInteger("Enter the ID of the startup you want to validate: ", 1, 999);
+    idx = findStartupIndexById(startups, count, targetId);
 
     if (idx == -1) {
         printf("[Error] Startup with ID #%d does not exist.\n", targetId);
         return;
     }
 
-    Startup *s = &startups[idx];
+    s = &startups[idx];
     s->views++; /* Validating counts as an active engagement/view */
 
     printf("\nValidating \"%s\" (by %s):\n", s->name, s->founder);
@@ -462,7 +482,7 @@ void validateStartupIdea(Startup startups[], int count) {
     printf("\n[Step 1/3] Would you use this product?\n");
     printf("  1. Yes - Interested (I would use this)\n");
     printf("  2. No  - Pass (Not interested)\n");
-    int voteChoice = readInteger("Your vote (1-2): ", 1, 2);
+    voteChoice = readInteger("Your vote (1-2): ", 1, 2);
     if (voteChoice == 1) {
         s->interested++;
         printf("-> Recorded: INTERESTED vote added.\n");
@@ -475,7 +495,7 @@ void validateStartupIdea(Startup startups[], int count) {
     printf("\n[Step 2/3] Would you pay / pre-order this solution?\n");
     printf("  1. Yes - I would pay for this (Purchase Intent)\n");
     printf("  2. No  - Not ready to purchase\n");
-    int purchaseChoice = readInteger("Your choice (1-2): ", 1, 2);
+    purchaseChoice = readInteger("Your choice (1-2): ", 1, 2);
     if (purchaseChoice == 1) {
         s->purchaseIntent++;
         printf("-> Recorded: PURCHASE INTENT logged.\n");
@@ -487,11 +507,11 @@ void validateStartupIdea(Startup startups[], int count) {
     printf("\n[Step 3/3] Would you like to leave constructive feedback for %s?\n", s->founder);
     printf("  1. Yes, leave written feedback\n");
     printf("  2. Skip feedback\n");
-    int feedbackChoice = readInteger("Your choice (1-2): ", 1, 2);
+    feedbackChoice = readInteger("Your choice (1-2): ", 1, 2);
 
     if (feedbackChoice == 1) {
         if (s->feedbackCount < MAX_FEEDBACK) {
-            Feedback *fb = &s->feedbacks[s->feedbackCount];
+            fb = &s->feedbacks[s->feedbackCount];
             readSafeString("Your Name/Role : ", fb->author, STR_SHORT, 1);
             readSafeString("Your Feedback  : ", fb->text, STR_LONG, 1);
             s->feedbackCount++;
@@ -502,8 +522,6 @@ void validateStartupIdea(Startup startups[], int count) {
     }
 
     /* Compute updated metrics and display real-time signal */
-    float iRate, pRate, score;
-    char verdict[STR_SHORT];
     calculateMetrics(s->interested, s->pass, s->purchaseIntent, &iRate, &pRate, &score, verdict);
 
     printf("\n--------------------------------------------------------\n");
@@ -518,6 +536,15 @@ void validateStartupIdea(Startup startups[], int count) {
 /* ========================================================================= */
 
 void founderDashboard(Startup startups[], int count) {
+    int i;
+    int k;
+    int targetId;
+    int idx;
+    Startup *s;
+    float iRate, pRate, score;
+    char verdict[STR_SHORT];
+    int totalVotes;
+
     printf("================================================================================\n");
     printf("                             FOUNDER DASHBOARD                                  \n");
     printf("================================================================================\n");
@@ -528,29 +555,26 @@ void founderDashboard(Startup startups[], int count) {
     }
 
     printf("Select an idea to generate its Full Validation Report:\n");
-    for (int i = 0; i < count; i++) {
+    for (i = 0; i < count; i++) {
         printf("  %d. %s (Founder: %s, Category: %s)\n",
                startups[i].id, startups[i].name, startups[i].founder, startups[i].category);
     }
     printf("--------------------------------------------------------------------------------\n");
 
-    int targetId = readInteger("Enter Startup ID (or enter 0 to return): ", 0, 999);
+    targetId = readInteger("Enter Startup ID (or enter 0 to return): ", 0, 999);
     if (targetId == 0) {
         return;
     }
 
-    int idx = findStartupIndexById(startups, count, targetId);
+    idx = findStartupIndexById(startups, count, targetId);
     if (idx == -1) {
         printf("[Error] Startup ID #%d not found.\n", targetId);
         return;
     }
 
-    Startup *s = &startups[idx];
-    float iRate, pRate, score;
-    char verdict[STR_SHORT];
+    s = &startups[idx];
     calculateMetrics(s->interested, s->pass, s->purchaseIntent, &iRate, &pRate, &score, verdict);
-
-    int totalVotes = s->interested + s->pass;
+    totalVotes = s->interested + s->pass;
 
     printf("\n========================================================================\n");
     printf("                  TESTMINT STARTUP VALIDATION REPORT                     \n");
@@ -597,7 +621,7 @@ void founderDashboard(Startup startups[], int count) {
     if (s->feedbackCount == 0) {
         printf("    No qualitative feedback logged yet.\n");
     } else {
-        for (int k = 0; k < s->feedbackCount; k++) {
+        for (k = 0; k < s->feedbackCount; k++) {
             printf("    * \"%s\" - %s\n", s->feedbacks[k].text, s->feedbacks[k].author);
         }
     }

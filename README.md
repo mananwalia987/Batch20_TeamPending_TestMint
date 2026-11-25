@@ -9,7 +9,7 @@ A menu-driven startup idea validation system built in C for the first-year C Pro
 * **Project Name:** TestMint
 * **Tagline:** Validate Before You Build.
 * **Batch:** Batch 20
-* **Team Number:** TEAM_NUMBER_PENDING *(Awaiting faculty allocation)*
+* **Team Name:** TestMint
 
 ### Team Members
 
@@ -269,9 +269,10 @@ Enter your choice (1-5):
 
 ```text
 Batch20_TeamPending_TestMint/
-├── README.md       # Main project documentation and test outputs
-├── testmint.c      # Complete C source code
-└── flowchart.png   # Architecture diagram image
+├── README.md          # Main project documentation and test outputs
+├── testmint.c         # Complete C source code
+├── presentation.pptx  # Slide deck for presentation and evaluation review
+└── flowchart.png      # Architecture diagram image
 ```
 
 ---

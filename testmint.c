@@ -3,7 +3,7 @@
   PROJECT     : TestMint - Validate Before You Build
   COURSE      : C Programming Mini Hackathon (University Assessment)
   BATCH       : Batch 20
-  TEAM NUMBER : TEAM_NUMBER_PENDING
+  TEAM NAME   : TestMint
   
   TEAM MEMBERS:
     1. Manan Walia   | SAP ID: 590036141 | Batch: 20
